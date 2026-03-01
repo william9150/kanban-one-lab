@@ -5,7 +5,7 @@ import ToastNotification from '@/components/ToastNotification.vue'
 </script>
 
 <template>
-  <div class="h-screen flex flex-col overflow-hidden bg-linear-to-br from-violet-600 to-purple-500">
+  <div class="h-screen flex flex-col overflow-hidden bg-linear-to-br from-indigo-600 to-violet-500">
     <div class="flex flex-col flex-1 min-h-0 max-w-330 w-full mx-auto">
       <header class="shrink-0 px-4 py-4 text-center">
         <h1 class="text-3xl font-bold text-white drop-shadow-md">Kanban 看板管理系統</h1>

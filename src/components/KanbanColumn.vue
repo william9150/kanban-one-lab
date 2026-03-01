@@ -2,7 +2,10 @@
 import { computed } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { useKanbanStore } from '@/stores/useKanbanStore'
+import { useToastStore } from '@/stores/useToastStore'
+import { CardStatus } from '@/types/kanban'
 import type { ColumnDefinition, Card } from '@/types/kanban'
+import { STATUS_LABELS } from '@/constants/kanban'
 import KanbanCard from './KanbanCard.vue'
 
 const props = defineProps<{
@@ -15,6 +18,7 @@ const emit = defineEmits<{
 }>()
 
 const store = useKanbanStore()
+const toast = useToastStore()
 
 const columnCards = computed({
   get: () => store.cardsByStatus[props.column.status],
@@ -22,6 +26,14 @@ const columnCards = computed({
     store.reorderCards(props.column.status, newList)
   },
 })
+
+function onDragAdd() {
+  if (props.column.status === CardStatus.DONE) {
+    toast.show('太棒了! 任務完成!')
+  } else {
+    toast.show(`卡片已移動到「${STATUS_LABELS[props.column.status]}」!`)
+  }
+}
 </script>
 
 <template>
@@ -53,6 +65,7 @@ const columnCards = computed({
         :animation="200"
         ghost-class="opacity-30"
         class="flex-1 overflow-y-auto p-2 space-y-2 min-h-15"
+        @add="onDragAdd"
       >
         <KanbanCard
           v-for="card in columnCards"

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useKanbanStore } from '@/stores/useKanbanStore'
+import { useToastStore } from '@/stores/useToastStore'
 
 const store = useKanbanStore()
+const toast = useToastStore()
 const title = ref('')
 const description = ref('')
 const titleInput = ref<HTMLInputElement | null>(null)
@@ -13,6 +15,7 @@ function handleSubmit() {
   title.value = ''
   description.value = ''
   titleInput.value?.focus()
+  toast.show('卡片已成功新增到待處理欄位!')
 }
 </script>
 

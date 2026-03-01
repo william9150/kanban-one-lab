@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AddCardForm from '@/components/AddCardForm.vue'
 import KanbanBoard from '@/components/KanbanBoard.vue'
+import ToastNotification from '@/components/ToastNotification.vue'
 </script>
 
 <template>
@@ -12,5 +13,6 @@ import KanbanBoard from '@/components/KanbanBoard.vue'
       <AddCardForm />
       <KanbanBoard />
     </div>
+    <ToastNotification />
   </div>
 </template>

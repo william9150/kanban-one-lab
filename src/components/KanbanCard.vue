@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useKanbanStore } from '@/stores/useKanbanStore'
+import { useToastStore } from '@/stores/useToastStore'
 import type { Card } from '@/types/kanban'
 import { STATUS_BORDER_COLORS } from '@/constants/kanban'
 import EditCardModal from './EditCardModal.vue'
@@ -11,6 +12,7 @@ const props = defineProps<{
 }>()
 
 const store = useKanbanStore()
+const toast = useToastStore()
 const showEdit = ref(false)
 const showDelete = ref(false)
 const borderColor = computed(() => STATUS_BORDER_COLORS[props.card.status])
@@ -18,6 +20,7 @@ const borderColor = computed(() => STATUS_BORDER_COLORS[props.card.status])
 function confirmDelete() {
   store.deleteCard(props.card.id)
   showDelete.value = false
+  toast.show('卡片已刪除')
 }
 </script>
 

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useKanbanStore } from '@/stores/useKanbanStore'
-import { COLUMNS } from '@/constants/kanban'
+import { useToastStore } from '@/stores/useToastStore'
+import { COLUMNS, STATUS_LABELS } from '@/constants/kanban'
+import { CardStatus } from '@/types/kanban'
 import type { Card } from '@/types/kanban'
-import type { CardStatus } from '@/types/kanban'
 
 const props = defineProps<{
   card: Card
@@ -14,6 +15,7 @@ const emit = defineEmits<{
 }>()
 
 const store = useKanbanStore()
+const toast = useToastStore()
 const editTitle = ref('')
 const editDescription = ref('')
 const editStatus = ref<CardStatus>(props.card.status)
@@ -30,12 +32,23 @@ watch(
 
 function handleSave() {
   if (!editTitle.value.trim()) return
+  const statusChanged = editStatus.value !== props.card.status
   store.updateCard(props.card.id, {
     title: editTitle.value.trim(),
     description: editDescription.value.trim(),
     status: editStatus.value,
   })
   emit('close')
+
+  if (statusChanged) {
+    if (editStatus.value === CardStatus.DONE) {
+      toast.show('太棒了! 任務完成!')
+    } else {
+      toast.show(`卡片已移動到「${STATUS_LABELS[editStatus.value]}」!`)
+    }
+  } else {
+    toast.show('卡片已成功更新!')
+  }
 }
 
 function onKeydown(e: KeyboardEvent) {

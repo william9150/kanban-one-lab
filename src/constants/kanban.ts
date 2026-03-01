@@ -15,6 +15,13 @@ export const STATUS_BORDER_COLORS: Record<CardStatus, string> = {
   [CardStatus.DONE]: 'border-l-green-500',
 }
 
+export const STATUS_LABELS: Record<CardStatus, string> = {
+  [CardStatus.TODO]: '待處理',
+  [CardStatus.IN_PROGRESS]: '進行中',
+  [CardStatus.IN_REVIEW]: '待驗收',
+  [CardStatus.DONE]: '已完成',
+}
+
 export const STORAGE_KEY = 'kanban-cards'
 
 export function createDefaultCards(): Card[] {

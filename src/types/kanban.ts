@@ -1,9 +1,11 @@
-export enum CardStatus {
-  TODO = 'todo',
-  IN_PROGRESS = 'in-progress',
-  IN_REVIEW = 'in-review',
-  DONE = 'done',
-}
+export const CardStatus = {
+  TODO: 'todo',
+  IN_PROGRESS: 'in-progress',
+  IN_REVIEW: 'in-review',
+  DONE: 'done',
+} as const
+
+export type CardStatus = (typeof CardStatus)[keyof typeof CardStatus]
 
 export interface Card {
   id: string

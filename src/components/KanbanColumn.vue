@@ -43,7 +43,8 @@ const showDropHighlight = computed(() =>
 onMounted(() => emit('registerRef', columnEl.value))
 onUnmounted(() => emit('registerRef', null))
 
-function onDragStart(evt: { oldIndex: number }) {
+function onDragStart(evt: { oldIndex?: number }) {
+  if (evt.oldIndex == null) return
   const card = columnCards.value[evt.oldIndex]
   if (card) {
     emit('dragStart', card.id)

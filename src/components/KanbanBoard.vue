@@ -4,7 +4,7 @@ import { COLUMNS } from '@/constants/kanban'
 import type { CardStatus } from '@/types/kanban'
 import KanbanColumn from './KanbanColumn.vue'
 
-const expandedColumn = ref<CardStatus>(COLUMNS[0].status)
+const expandedColumn = ref<CardStatus>(COLUMNS[0]!.status)
 const isDragging = ref(false)
 const draggedCardId = ref<string | null>(null)
 const hoveredStatus = ref<CardStatus | null>(null)

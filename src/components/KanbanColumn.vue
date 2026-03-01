@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { VueDraggable } from 'vue-draggable-plus'
 import { useKanbanStore } from '@/stores/useKanbanStore'
-import type { ColumnDefinition } from '@/types/kanban'
+import type { ColumnDefinition, Card } from '@/types/kanban'
 import KanbanCard from './KanbanCard.vue'
 
 const props = defineProps<{
@@ -10,7 +11,12 @@ const props = defineProps<{
 
 const store = useKanbanStore()
 
-const columnCards = computed(() => store.cardsByStatus[props.column.status])
+const columnCards = computed({
+  get: () => store.cardsByStatus[props.column.status],
+  set: (newList: Card[]) => {
+    store.reorderCards(props.column.status, newList)
+  },
+})
 </script>
 
 <template>
@@ -20,15 +26,21 @@ const columnCards = computed(() => store.cardsByStatus[props.column.status])
       <span class="font-semibold text-sm text-gray-700">{{ column.label }}</span>
       <span class="ml-auto text-xs text-gray-400 bg-gray-200 rounded-full px-2 py-0.5">{{ columnCards.length }}</span>
     </div>
-    <div class="flex-1 overflow-y-auto p-2 space-y-2">
+    <VueDraggable
+      v-model="columnCards"
+      group="kanban"
+      :animation="200"
+      ghost-class="opacity-30"
+      class="flex-1 overflow-y-auto p-2 space-y-2 min-h-15"
+    >
       <KanbanCard
         v-for="card in columnCards"
         :key="card.id"
         :card="card"
       />
-      <p v-if="columnCards.length === 0" class="text-center text-xs text-gray-400 py-8 border-2 border-dashed border-gray-200 rounded-lg">
-        暫無卡片
-      </p>
-    </div>
+    </VueDraggable>
+    <p v-if="columnCards.length === 0" class="text-center text-xs text-gray-400 py-8 mx-2 mb-2 border-2 border-dashed border-gray-200 rounded-lg pointer-events-none">
+      暫無卡片
+    </p>
   </div>
 </template>

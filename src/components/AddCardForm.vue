@@ -20,7 +20,7 @@ function handleSubmit() {
 </script>
 
 <template>
-  <div class="shrink-0 bg-white border-b border-gray-200 px-4 py-3">
+  <div class="shrink-0 bg-white rounded-lg shadow-sm mx-4 mt-0 mb-0 px-4 py-3">
     <form @submit.prevent="handleSubmit" class="flex flex-col sm:flex-row gap-2 items-stretch sm:items-start">
       <div class="flex-1 min-w-0">
         <label for="card-title" class="block text-xs font-medium text-gray-600 mb-1">標題 *</label>
@@ -46,7 +46,7 @@ function handleSubmit() {
       <button
         type="submit"
         :disabled="!title.trim()"
-        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 cursor-pointer"
+        class="px-4 py-2 sm:mt-5 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 cursor-pointer"
       >
         新增卡片
       </button>

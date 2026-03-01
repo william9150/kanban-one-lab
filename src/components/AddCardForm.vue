@@ -21,7 +21,7 @@ function handleSubmit() {
 
 <template>
   <div class="shrink-0 bg-white border-b border-gray-200 px-4 py-3">
-    <form @submit.prevent="handleSubmit" class="flex flex-col sm:flex-row gap-2 items-stretch sm:items-end">
+    <form @submit.prevent="handleSubmit" class="flex flex-col sm:flex-row gap-2 items-stretch sm:items-start">
       <div class="flex-1 min-w-0">
         <label for="card-title" class="block text-xs font-medium text-gray-600 mb-1">標題 *</label>
         <input
@@ -35,12 +35,12 @@ function handleSubmit() {
       </div>
       <div class="flex-1 min-w-0">
         <label for="card-desc" class="block text-xs font-medium text-gray-600 mb-1">描述</label>
-        <input
+        <textarea
           id="card-desc"
           v-model="description"
-          type="text"
+          rows="2"
           placeholder="輸入卡片描述（選填）"
-          class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
         />
       </div>
       <button

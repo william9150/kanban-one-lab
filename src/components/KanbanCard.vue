@@ -27,7 +27,7 @@ function confirmDelete() {
 <template>
   <div :class="[borderColor, 'group relative p-3 bg-white rounded-lg shadow-sm border border-gray-200 border-l-4 cursor-grab active:cursor-grabbing']">
     <h3 class="font-medium text-gray-900 text-sm pr-14">{{ card.title }}</h3>
-    <p v-if="card.description" class="mt-1 text-xs text-gray-500 line-clamp-2">{{ card.description }}</p>
+    <p v-if="card.description" class="mt-1 text-xs text-gray-500 line-clamp-2 whitespace-pre-line">{{ card.description }}</p>
 
     <!-- Action buttons: visible on hover (desktop) / always visible on mobile -->
     <div class="absolute top-2 right-2 flex gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { useKanbanStore } from '@/stores/useKanbanStore'
 import { useToastStore } from '@/stores/useToastStore'
@@ -13,17 +13,19 @@ const props = defineProps<{
   expanded: boolean
   isDragging: boolean
   draggedCardId: string | null
+  hoveredStatus: CardStatus | null
 }>()
 
 const emit = defineEmits<{
   toggle: []
   dragStart: [cardId: string]
   dragEnd: []
+  registerRef: [el: HTMLElement | null]
 }>()
 
 const store = useKanbanStore()
 const toast = useToastStore()
-const isHovered = ref(false)
+const columnEl = ref<HTMLElement | null>(null)
 
 const columnCards = computed({
   get: () => store.cardsByStatus[props.column.status],
@@ -33,7 +35,13 @@ const columnCards = computed({
 })
 
 const isContentVisible = computed(() => props.expanded || props.isDragging)
-const showDropHighlight = computed(() => props.isDragging && isHovered.value)
+const isSourceColumn = computed(() => props.draggedCardId !== null && columnCards.value.some((c) => c.id === props.draggedCardId))
+const showDropHighlight = computed(() =>
+  props.isDragging && props.hoveredStatus === props.column.status && !isSourceColumn.value
+)
+
+onMounted(() => emit('registerRef', columnEl.value))
+onUnmounted(() => emit('registerRef', null))
 
 function onDragStart(evt: { oldIndex: number }) {
   const card = columnCards.value[evt.oldIndex]
@@ -54,25 +62,16 @@ function showToastForMove() {
   }
 }
 
-/**
- * Handle native dragover on the entire column container (including header & empty space).
- * This allows SortableJS to detect drops anywhere in the column.
- */
 function onColumnDragOver(e: DragEvent) {
   if (props.isDragging) {
     e.preventDefault()
   }
 }
 
-/**
- * Handle native drop on non-VueDraggable areas (header, bottom empty space).
- * Manually move the card to the end of this column.
- */
 function onColumnDrop(e: DragEvent) {
   e.preventDefault()
   if (!props.draggedCardId) return
 
-  // Check if this card is already in this column (same-column drop on header = no-op)
   const alreadyHere = columnCards.value.some((c) => c.id === props.draggedCardId)
   if (alreadyHere) return
 
@@ -83,10 +82,9 @@ function onColumnDrop(e: DragEvent) {
 
 <template>
   <div
-    class="flex flex-col min-h-0 rounded-lg transition-colors duration-200"
-    :class="showDropHighlight ? 'bg-blue-100 ring-2 ring-blue-400' : 'bg-gray-50'"
-    @pointerenter="isHovered = true"
-    @pointerleave="isHovered = false"
+    ref="columnEl"
+    class="flex flex-col min-h-0 rounded-lg transition-all duration-150 bg-gray-50"
+    :class="{ 'opacity-50 ring-2 ring-blue-400': showDropHighlight }"
     @dragover="onColumnDragOver"
     @drop="onColumnDrop"
   >

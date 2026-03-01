@@ -30,6 +30,20 @@ export const useKanbanStore = defineStore('kanban', () => {
     return id
   }
 
+  function deduplicateCards(list: Card[]): Card[] {
+    const seen = new Set<string>()
+    return list.filter((card) => {
+      if (seen.has(card.id)) return false
+      seen.add(card.id)
+      return true
+    })
+  }
+
+  function persist(): void {
+    cards.value = deduplicateCards(cards.value)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cards.value))
+  }
+
   function addCard(title: string, description: string): void {
     const now = Date.now()
     const card: Card = {
@@ -61,27 +75,15 @@ export const useKanbanStore = defineStore('kanban', () => {
   }
 
   function reorderCards(status: CardStatus, newList: Card[]): void {
-    const otherCards = cards.value.filter((c) => c.status !== status)
+    const newListIds = new Set(newList.map((c) => c.id))
+    const otherCards = cards.value.filter((c) => c.status !== status && !newListIds.has(c.id))
     const updatedList = newList.map((c) => ({
       ...c,
       status,
       updatedAt: c.status !== status ? Date.now() : c.updatedAt,
     }))
-    cards.value = [...otherCards, ...updatedList]
+    cards.value = deduplicateCards([...otherCards, ...updatedList])
     persist()
-  }
-
-  function persist(): void {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(cards.value))
-  }
-
-  function deduplicateCards(list: Card[]): Card[] {
-    const seen = new Set<string>()
-    return list.filter((card) => {
-      if (seen.has(card.id)) return false
-      seen.add(card.id)
-      return true
-    })
   }
 
   function loadFromStorage(): Card[] {

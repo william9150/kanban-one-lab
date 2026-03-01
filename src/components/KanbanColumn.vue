@@ -114,7 +114,7 @@ function onColumnDrop(e: DragEvent) {
     </div>
     <!-- Content: always visible on sm+, accordion on mobile, all visible during drag -->
     <div :class="['sm:contents', isContentVisible ? 'contents' : 'hidden']">
-      <div class="flex-1 overflow-y-auto scrollbar-hide p-2 space-y-2">
+      <div class="flex-1 overflow-y-auto scrollbar-hide p-2 space-y-2" @drop.stop>
         <p v-if="columnCards.length === 0" class="text-center text-xs text-gray-400 py-8 border-2 border-dashed border-gray-200 rounded-lg pointer-events-none">
           暫無卡片
         </p>

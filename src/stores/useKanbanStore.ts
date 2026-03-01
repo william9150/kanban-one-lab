@@ -21,10 +21,19 @@ export const useKanbanStore = defineStore('kanban', () => {
     return grouped
   })
 
+  function uniqueId(): string {
+    let id = generateId()
+    const existingIds = new Set(cards.value.map((c) => c.id))
+    while (existingIds.has(id)) {
+      id = generateId()
+    }
+    return id
+  }
+
   function addCard(title: string, description: string): void {
     const now = Date.now()
     const card: Card = {
-      id: generateId(),
+      id: uniqueId(),
       title: title.trim(),
       description: description.trim(),
       status: CardStatus.TODO,
@@ -66,10 +75,20 @@ export const useKanbanStore = defineStore('kanban', () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(cards.value))
   }
 
+  function deduplicateCards(list: Card[]): Card[] {
+    const seen = new Set<string>()
+    return list.filter((card) => {
+      if (seen.has(card.id)) return false
+      seen.add(card.id)
+      return true
+    })
+  }
+
   function loadFromStorage(): Card[] {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
-      return raw ? JSON.parse(raw) : createDefaultCards()
+      const parsed: Card[] = raw ? JSON.parse(raw) : createDefaultCards()
+      return deduplicateCards(parsed)
     } catch {
       return []
     }

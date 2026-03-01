@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath } from 'node:url'
 
 export default defineConfig({
+  base: '/kanban-one-lab/',
   plugins: [vue(), tailwindcss()],
   server: {
     host: '127.0.0.1',

@@ -46,18 +46,18 @@ function handleGlobalDragOver(e: DragEvent) {
 function onDragStart(cardId: string) {
   isDragging.value = true
   draggedCardId.value = cardId
-  document.addEventListener('dragover', handleGlobalDragOver)
+  document.addEventListener('dragover', handleGlobalDragOver, true)
 }
 
 function onDragEnd() {
   isDragging.value = false
   draggedCardId.value = null
   hoveredStatus.value = null
-  document.removeEventListener('dragover', handleGlobalDragOver)
+  document.removeEventListener('dragover', handleGlobalDragOver, true)
 }
 
 onUnmounted(() => {
-  document.removeEventListener('dragover', handleGlobalDragOver)
+  document.removeEventListener('dragover', handleGlobalDragOver, true)
 })
 </script>
 

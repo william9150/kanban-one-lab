@@ -59,23 +59,25 @@ function onDragAdd() {
     </div>
     <!-- Content: always visible on sm+, accordion on mobile -->
     <div :class="['sm:contents', expanded ? 'contents' : 'hidden']">
-      <VueDraggable
-        v-model="columnCards"
-        group="kanban"
-        :animation="200"
-        ghost-class="opacity-30"
-        class="flex-1 overflow-y-auto p-2 space-y-2 min-h-15"
-        @add="onDragAdd"
-      >
-        <KanbanCard
-          v-for="card in columnCards"
-          :key="card.id"
-          :card="card"
-        />
-      </VueDraggable>
-      <p v-if="columnCards.length === 0" class="text-center text-xs text-gray-400 py-8 mx-2 mb-2 border-2 border-dashed border-gray-200 rounded-lg pointer-events-none">
-        暫無卡片
-      </p>
+      <div class="flex-1 overflow-y-auto p-2 space-y-2">
+        <p v-if="columnCards.length === 0" class="text-center text-xs text-gray-400 py-8 border-2 border-dashed border-gray-200 rounded-lg pointer-events-none">
+          暫無卡片
+        </p>
+        <VueDraggable
+          v-model="columnCards"
+          group="kanban"
+          :animation="200"
+          ghost-class="opacity-30"
+          class="space-y-2 min-h-15"
+          @add="onDragAdd"
+        >
+          <KanbanCard
+            v-for="card in columnCards"
+            :key="card.id"
+            :card="card"
+          />
+        </VueDraggable>
+      </div>
     </div>
   </div>
 </template>

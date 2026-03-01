@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { Card } from '@/types/kanban'
 import { CardStatus } from '@/types/kanban'
-import { STORAGE_KEY } from '@/constants/kanban'
+import { STORAGE_KEY, createDefaultCards } from '@/constants/kanban'
 import { generateId } from '@/utils/id'
 
 export const useKanbanStore = defineStore('kanban', () => {
@@ -69,7 +69,7 @@ export const useKanbanStore = defineStore('kanban', () => {
   function loadFromStorage(): Card[] {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
-      return raw ? JSON.parse(raw) : []
+      return raw ? JSON.parse(raw) : createDefaultCards()
     } catch {
       return []
     }

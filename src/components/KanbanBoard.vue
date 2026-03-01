@@ -5,9 +5,23 @@ import type { CardStatus } from '@/types/kanban'
 import KanbanColumn from './KanbanColumn.vue'
 
 const expandedColumn = ref<CardStatus>(COLUMNS[0].status)
+const isDragging = ref(false)
+const draggedCardId = ref<string | null>(null)
 
 function toggleColumn(status: CardStatus) {
-  expandedColumn.value = status
+  if (!isDragging.value) {
+    expandedColumn.value = status
+  }
+}
+
+function onDragStart(cardId: string) {
+  isDragging.value = true
+  draggedCardId.value = cardId
+}
+
+function onDragEnd() {
+  isDragging.value = false
+  draggedCardId.value = null
 }
 </script>
 
@@ -18,7 +32,11 @@ function toggleColumn(status: CardStatus) {
       :key="col.status"
       :column="col"
       :expanded="expandedColumn === col.status"
+      :is-dragging="isDragging"
+      :dragged-card-id="draggedCardId"
       @toggle="toggleColumn(col.status)"
+      @drag-start="onDragStart"
+      @drag-end="onDragEnd"
     />
   </div>
 </template>

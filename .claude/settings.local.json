@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create vite@latest . -- --template vue-ts)",
+      "Bash(npx create-vite . --template vue-ts --force)",
+      "Read(//c/Users/William/Desktop/昇新面試/作業開發/**)",
+      "Bash(npm install)",
+      "Bash(npm install pinia vue-draggable-plus)",
+      "Bash(npm install -D tailwindcss @tailwindcss/vite)",
+      "Bash(npx vue-tsc --noEmit)"
+    ]
+  }
+}

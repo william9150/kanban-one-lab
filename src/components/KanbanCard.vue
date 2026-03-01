@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useKanbanStore } from '@/stores/useKanbanStore'
 import type { Card } from '@/types/kanban'
+import { STATUS_BORDER_COLORS } from '@/constants/kanban'
 import EditCardModal from './EditCardModal.vue'
 import ConfirmDialog from './ConfirmDialog.vue'
 
@@ -12,6 +13,7 @@ const props = defineProps<{
 const store = useKanbanStore()
 const showEdit = ref(false)
 const showDelete = ref(false)
+const borderColor = computed(() => STATUS_BORDER_COLORS[props.card.status])
 
 function confirmDelete() {
   store.deleteCard(props.card.id)
@@ -20,7 +22,7 @@ function confirmDelete() {
 </script>
 
 <template>
-  <div class="group relative p-3 bg-white rounded-lg shadow-sm border border-gray-200 cursor-grab active:cursor-grabbing">
+  <div :class="[borderColor, 'group relative p-3 bg-white rounded-lg shadow-sm border border-gray-200 border-l-4 cursor-grab active:cursor-grabbing']">
     <h3 class="font-medium text-gray-900 text-sm pr-14">{{ card.title }}</h3>
     <p v-if="card.description" class="mt-1 text-xs text-gray-500 line-clamp-2">{{ card.description }}</p>
 

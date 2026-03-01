@@ -8,6 +8,13 @@ export const COLUMNS: ColumnDefinition[] = [
   { status: CardStatus.DONE, label: '已完成 (Done)', color: 'bg-green-500' },
 ]
 
+export const STATUS_BORDER_COLORS: Record<CardStatus, string> = {
+  [CardStatus.TODO]: 'border-l-red-500',
+  [CardStatus.IN_PROGRESS]: 'border-l-orange-500',
+  [CardStatus.IN_REVIEW]: 'border-l-blue-500',
+  [CardStatus.DONE]: 'border-l-green-500',
+}
+
 export const STORAGE_KEY = 'kanban-cards'
 
 export function createDefaultCards(): Card[] {

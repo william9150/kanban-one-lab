@@ -1,6 +1,14 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { COLUMNS } from '@/constants/kanban'
+import type { CardStatus } from '@/types/kanban'
 import KanbanColumn from './KanbanColumn.vue'
+
+const expandedColumn = ref<CardStatus>(COLUMNS[0].status)
+
+function toggleColumn(status: CardStatus) {
+  expandedColumn.value = status
+}
 </script>
 
 <template>
@@ -9,6 +17,8 @@ import KanbanColumn from './KanbanColumn.vue'
       v-for="col in COLUMNS"
       :key="col.status"
       :column="col"
+      :expanded="expandedColumn === col.status"
+      @toggle="toggleColumn(col.status)"
     />
   </div>
 </template>

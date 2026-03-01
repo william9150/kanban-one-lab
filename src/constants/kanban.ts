@@ -15,6 +15,13 @@ export const STATUS_BORDER_COLORS: Record<CardStatus, string> = {
   [CardStatus.DONE]: 'border-l-green-500',
 }
 
+export const STATUS_DIVIDER_COLORS: Record<CardStatus, string> = {
+  [CardStatus.TODO]: 'border-red-500',
+  [CardStatus.IN_PROGRESS]: 'border-orange-500',
+  [CardStatus.IN_REVIEW]: 'border-blue-500',
+  [CardStatus.DONE]: 'border-green-500',
+}
+
 export const STATUS_LABELS: Record<CardStatus, string> = {
   [CardStatus.TODO]: '待處理',
   [CardStatus.IN_PROGRESS]: '進行中',

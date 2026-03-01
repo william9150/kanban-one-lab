@@ -8,7 +8,7 @@ import ToastNotification from '@/components/ToastNotification.vue'
   <div class="h-screen flex flex-col overflow-hidden bg-linear-to-br from-violet-600 to-purple-500">
     <div class="flex flex-col flex-1 min-h-0 max-w-330 w-full mx-auto">
       <header class="shrink-0 px-4 py-4 text-center">
-        <h1 class="text-xl font-bold text-white">Kanban 看板管理系統</h1>
+        <h1 class="text-3xl font-bold text-white drop-shadow-md">Kanban 看板管理系統</h1>
         <p class="text-sm text-purple-100 mt-1">拖拉卡片，輕鬆管理任務進度</p>
       </header>
       <AddCardForm />

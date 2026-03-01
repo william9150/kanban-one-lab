@@ -7,7 +7,8 @@
       "Bash(npm install)",
       "Bash(npm install pinia vue-draggable-plus)",
       "Bash(npm install -D tailwindcss @tailwindcss/vite)",
-      "Bash(npx vue-tsc --noEmit)"
+      "Bash(npx vue-tsc --noEmit)",
+      "Bash(npx vite build)"
     ]
   }
 }
